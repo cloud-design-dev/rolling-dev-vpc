@@ -60,6 +60,12 @@ variable "metadata_service_enabled" {
   default     = true
 }
 
+variable "existing_cos_instance" {
+  description = "The name of an existing COS instance to use for Flowlog collector buckets."
+  type        = string
+  default     = ""
+}
+
 variable "frontend_rules" {
   description = "A list of security group rules to be added to the Frontend security group"
   type = list(
@@ -162,9 +168,30 @@ variable "frontend_rules" {
       }
     },
     {
-      name       = "inbound-ssh"
+      name       = "inbound-ssh-corvus"
       direction  = "inbound"
-      remote     = "0.0.0.0/0"
+      remote     = "64.225.48.99"
+      ip_version = "ipv4"
+      tcp = {
+        port_min = 22
+        port_max = 22
+      }
+    },
+    {
+      name       = "inbound-ssh-malachor"
+      direction  = "inbound"
+      remote     = "173.230.131.177"
+      ip_version = "ipv4"
+      tcp = {
+        port_min = 22
+        port_max = 22
+      }
+    },
+
+    {
+      name       = "inbound-ssh-home"
+      direction  = "inbound"
+      remote     = "136.244.50.59"
       ip_version = "ipv4"
       tcp = {
         port_min = 22
